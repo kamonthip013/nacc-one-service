@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+
+<title>Notify List - NACC Nonthaburi</title>
+
+<style>
+
+body{
+  margin:0;
+  font-family:Arial,"Noto Sans Thai",sans-serif;
+  background:#f4f6f9;
+  color:#1e293b;
+}
+
+.header{
+  background:linear-gradient(135deg,#071a3d,#0f2f66);
+  color:white;
+  text-align:center;
+  padding:28px 20px;
+}
+
+.container{
+  width:94%;
+  max-width:1200px;
+  margin:30px auto;
+}
+
+.table-box{
+  background:white;
+  padding:20px;
+  border-radius:16px;
+  box-shadow:0 6px 18px rgba(0,0,0,0.08);
+  overflow-x:auto;
+}
+
+table{
+  width:100%;
+  border-collapse:collapse;
+}
+
+th,
+td{
+  padding:12px;
+  border-bottom:1px solid #e2e8f0;
+  text-align:left;
+  font-size:14px;
+}
+
+th{
+  background:#0f2f66;
+  color:white;
+}
+
+.status-waiting{
+  color:#d97706;
+  font-weight:bold;
+}
+
+.status-sent{
+  color:#16a34a;
+  font-weight:bold;
+}
+
+tr:hover{
+  background:#f8fafc;
+}
+
+/* ปรับหน้า ONE NOTIFY LIST */
+body {
+  background: #f3f6fb;
+}
+
+.container {
+  width: min(94%, 1200px);
+  margin: 30px auto 55px;
+}
+
+.container > a {
+  display: inline-block;
+  margin-bottom: 20px;
+  color: #0f2f66;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.container > a:hover {
+  text-decoration: underline;
+}
+
+.table-box {
+  border: 1px solid #e2e9f3;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.07);
+  overflow-x: auto;
+}
+
+table {
+  min-width: 850px;
+}
+
+th, td {
+  padding: 14px 12px;
+  vertical-align: middle;
+  line-height: 1.5;
+}
+
+th {
+  white-space: nowrap;
+}
+
+tbody tr:nth-child(even) {
+  background: #f8faff;
+}
+
+tbody tr:hover {
+  background: #eef4ff;
+}
+
+@media (max-width: 600px) {
+  .header {
+    padding: 24px 16px;
+  }
+
+  .header h1 {
+    font-size: 26px;
+  }
+
+  .table-box {
+    padding: 12px;
+  }
+}
+
+.table-box button {
+  padding: 8px 14px;
+  border: 0;
+  border-radius: 8px;
+  background: #0f2f66;
+  color: white;
+  font: inherit;
+  font-weight: bold;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.table-box button:hover {
+  background: #1d4ed8;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="header">
+  <h1>ONE NOTIFY LIST</h1>
+  <p>รายการหนังสือราชการและสถานะการแจ้งเตือน</p>
+</div>
+
+<div class="container">
+  <a href="notify.html">
+    ← กลับหน้า ONE NOTIFY
+  </a>
+  <div class="table-box">
+
+    <h2>รายการหนังสือทั้งหมด</h2>
+
+    <table>
+      <thead>
+        <tr>
+          <th>เลขที่หนังสือ</th>
+          <th>เรื่อง</th>
+          <th>ผู้รับผิดชอบ</th>
+          <th>ความสำคัญ</th>
+          <th>วันที่รับ</th>
+          <th>สถานะ</th>
+          <th>จัดการ</th>
+        </tr>
+      </thead>
+
+      <tbody id="notifyTableBody">
+      </tbody>
+
+    </table>
+ 
+  </div>
+</div>
+
+<script>
+const API_URL =
+  "https://script.google.com/macros/s/AKfycbw2Zmcw9fXuUcB29pNxJPHwfsOAdow63VtfPrKQucI0dOC7gQAjp2c5LpPn6BhGIgVWMA/exec";
+
+const notifyTableBody =
+  document.getElementById("notifyTableBody");
+
+function showMessage(message) {
+  notifyTableBody.replaceChildren();
+
+  const row = document.createElement("tr");
+  const cell = document.createElement("td");
+
+  cell.colSpan = 7;
+  cell.textContent = message;
+  cell.style.textAlign = "center";
+
+  row.appendChild(cell);
+  notifyTableBody.appendChild(row);
+}
+
+async function loadNotifyList() {
+  showMessage("กำลังโหลดรายการ…");
+
+  try {
+  const adminKey = prompt("กรอกรหัสผู้ดูแลเพื่อดูรายการหนังสือ");
+    if (!adminKey) {
+      showMessage("กรุณากรอกรหัสผู้ดูแล");
+      return;
+    }
+
+    const response = await fetch(API_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "text/plain;charset=utf-8"
+      },
+      body: JSON.stringify({
+        action: "adminNotifyList",
+        adminKey: adminKey
+      })
+    });
+    if (!response.ok) {
+      throw new Error("เชื่อมต่อระบบไม่ได้");
+    }
+
+    const data = await response.json();
+
+    if (!data.success || !Array.isArray(data.items)) {
+      throw new Error(
+        data.message || "ข้อมูลไม่ตรงรูปแบบ กรุณาอัปเดต Apps Script"
+      );
+    }
+
+    if (data.items.length === 0) {
+      showMessage("ยังไม่มีรายการหนังสือในชีต");
+      return;
+    }
+
+    notifyTableBody.replaceChildren();
+ 
+    data.items.forEach(item => {
+      const row = document.createElement("tr");
+      const status = String(item.status || "").trim();
+
+      const values = [
+        item.docNumber,
+        item.docSubject,
+        item.responsible,
+        item.priority,
+        item.receivedDate,
+        status || "-",
+        status === "รับทราบแล้ว"
+          ? "รับทราบแล้ว ✓"
+          : status === "ส่งแล้ว"
+            ? "รอผู้รับกดรับทราบ"
+            : "-"
+      ];
+
+      values.forEach((value, index) => {
+        const cell = document.createElement("td");
+        cell.textContent = value || "-";
+
+        if (index === 5) {
+          cell.className =
+            status === "ส่งแล้ว" || status === "รับทราบแล้ว"
+              ? "status-sent"
+              : "status-waiting";
+        }
+
+        row.appendChild(cell);
+      });
+
+      notifyTableBody.appendChild(row);
+    });
+  } catch (error) {
+    showMessage("โหลดรายการไม่ได้: " + error.message);
+  }
+}
+
+loadNotifyList();
+</script>
+
+</body>
+</html>

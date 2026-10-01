@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+
+<title>ONE Notify - NACC Nonthaburi</title>
+
+<style>
+
+body{
+  margin:0;
+  font-family:Arial,"Noto Sans Thai",sans-serif;
+  background:#f4f6f9;
+  color:#1e293b;
+}
+
+.header{
+  background:linear-gradient(135deg,#071a3d,#0f2f66);
+  color:white;
+  text-align:center;
+  padding:30px 20px;
+}
+
+.header h1{
+  margin:0;
+  font-size:32px;
+}
+
+.header p{
+  margin:8px 0 0;
+  opacity:0.9;
+}
+
+.container{
+  width:92%;
+  max-width:900px;
+  margin:30px auto;
+}
+
+.form-box{
+  background:white;
+  border-radius:18px;
+  padding:28px;
+  box-shadow:0 6px 18px rgba(0,0,0,0.08);
+}
+
+.form-box h2{
+  margin-top:0;
+  color:#0f2f66;
+  text-align:center;
+}
+
+label{
+  display:block;
+  margin-top:16px;
+  font-weight:bold;
+}
+
+input,
+select,
+textarea{
+  width:100%;
+  padding:12px;
+  margin-top:7px;
+  border:1px solid #cbd5e1;
+  border-radius:10px;
+  box-sizing:border-box;
+  font-size:16px;
+}
+
+button{
+  width:100%;
+  margin-top:22px;
+  padding:14px;
+  border:none;
+  border-radius:10px;
+  background:linear-gradient(135deg,#06c755,#16a34a);
+  color:white;
+  font-size:17px;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+.back-link{
+  display:inline-block;
+  margin-bottom:18px;
+  color:#0f2f66;
+  text-decoration:none;
+  font-weight:bold;
+}
+
+.back-link:hover{
+  text-decoration:underline;
+}
+
+.list-button{
+  display:inline-block;
+  margin-top:12px;
+  padding:12px 20px;
+  background:#0f2f66;
+  color:white;
+  text-decoration:none;
+  border-radius:10px;
+}
+
+/* จัดหน้าแบบฟอร์ม ONE NOTIFY */
+body {
+  background: #f3f6fb;
+}
+
+.container {
+  width: min(92%, 960px);
+  margin: 28px auto 56px;
+}
+
+.form-box {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 36px;
+  border: 1px solid #e2e9f3;
+  box-shadow: 0 12px 32px rgba(7, 26, 61, 0.10);
+}
+
+.form-box h2 {
+  margin: 0 0 24px;
+}
+
+.form-box label {
+  margin-top: 18px;
+  margin-bottom: 8px;
+}
+
+.form-box input,
+.form-box select,
+.form-box textarea {
+  margin-top: 0;
+}
+
+.form-box textarea {
+  min-height: 110px;
+  resize: vertical;
+}
+
+#saveNotify {
+  margin-top: 28px;
+}
+
+.list-button {
+  display: block;
+  width: fit-content;
+  margin: 20px auto 0;
+}
+
+@media (max-width: 600px) {
+   .form-box { padding: 22px; }
+   .header h1 { font-size: 26px; }
+}
+</style>
+</head>
+
+<body>
+
+<div class="header">
+  <h1>ONE NOTIFY</h1>
+  <p>ระบบแจ้งเตือนหนังสือราชการผ่าน LINE Official Account</p>
+</div>
+
+<div class="container">
+  <a href="index.html" class="back-link">
+    ← กลับหน้า O.N.E. Service
+  </a>    
+
+<div class="form-box">
+
+  <h2>บันทึกข้อมูลหนังสือราชการ</h2>
+
+  <label>เลขที่หนังสือ</label>
+  <input
+    type="text"
+    id="docNumber"
+    placeholder="เช่น นบ 001/2569"
+  >
+
+  <label>เรื่อง</label>
+  <input
+    type="text"
+    id="docSubject"
+    placeholder="กรอกชื่อเรื่องหนังสือ"
+  >
+
+  <label>ผู้รับผิดชอบ</label>
+  <select id="responsible">
+    <option value="">-- เลือกผู้รับผิดชอบ --</option>
+    <option value="เจ้าหน้าที่">เจ้าหน้าที่</option>
+  </select>
+
+  <label>ระดับความสำคัญ</label>
+  <select id="priority">
+    <option value="">-- เลือกระดับความสำคัญ --</option>
+    <option>ปกติ</option>
+    <option>ด่วน</option>
+    <option>ด่วนมาก</option>
+    <option>ด่วนที่สุด</option>
+  </select>
+
+  <label>วันที่รับหนังสือ</label>
+  <input
+    type="date"
+    id="receivedDate"
+  >
+
+  <label>รายละเอียดเพิ่มเติม</label>
+  <textarea
+    id="docDetail"
+    rows="4"
+    placeholder="กรอกรายละเอียดหรือข้อความที่ต้องการแจ้งเตือน"
+  ></textarea>
+
+  <button
+    type="button"
+    id="saveNotify"
+  >
+    บันทึกและเตรียมส่งแจ้งเตือน
+  </button>
+
+  <a href="notifylist.html" class="list-button">
+    ดูรายการแจ้งเตือน
+  </a>
+
+  </div>
+</div>
+
+<script>
+const saveNotify =
+  document.getElementById("saveNotify");
+
+saveNotify.addEventListener("click", function(){
+
+  const docNumber =
+    document.getElementById("docNumber").value;
+
+  const docSubject =
+    document.getElementById("docSubject").value;
+
+  const responsible =
+    document.getElementById("responsible").value;
+
+  const priority =
+    document.getElementById("priority").value;
+
+  const receivedDate =
+    document.getElementById("receivedDate").value;
+
+  const docDetail =
+    document.getElementById("docDetail").value;
+
+  if(!docNumber || !docSubject ||
+     !responsible || !priority || !receivedDate){
+
+    alert("กรุณากรอกข้อมูลให้ครบ");
+    return;
+  }
+  const adminKey = prompt("กรอกรหัสผู้ดูแลเพื่อบันทึกหนังสือ");
+  if (!adminKey) {
+    alert("กรุณากรอกรหัสผู้ดูแล");
+    return;
+  }
+  const newNotify = {
+    docNumber: docNumber,
+    docSubject: docSubject,
+    responsible: responsible,
+    priority: priority,
+    receivedDate: receivedDate,
+    docDetail: docDetail,
+    status: "รอส่ง LINE"
+  };
+
+  saveNotify.disabled = true;
+
+  fetch("https://script.google.com/macros/s/AKfycbw2Zmcw9fXuUcB29pNxJPHwfsOAdow63VtfPrKQucI0dOC7gQAjp2c5LpPn6BhGIgVWMA/exec", {
+    method: "POST",
+    headers: { "Content-Type": "text/plain;charset=utf-8" },
+    body: JSON.stringify({
+      ...newNotify,
+      adminKey: adminKey
+    })
+  })
+  .then(response => {
+  if (!response.ok) throw new Error("HTTP " + response.status);
+  return response.json();
+})
+  .then(data => {
+  if (!data.success) throw new Error(data.message || "ส่งไม่สำเร็จ");
+
+  newNotify.status = "ส่งแล้ว";
+  const notifyList =
+    JSON.parse(localStorage.getItem("notifyList")) || [];
+  notifyList.push(newNotify);
+  localStorage.setItem("notifyList", JSON.stringify(notifyList));
+
+  alert("ส่งแจ้งเตือน LINE เรียบร้อยแล้ว");
+  ["docNumber", "docSubject", "responsible", "priority",
+   "receivedDate", "docDetail"].forEach(id => {
+   document.getElementById(id).value = "";
+  });
+})
+.catch(error => {
+  console.error(error);
+  alert("ส่ง LINE ไม่สำเร็จ: " + error.message);
+})
+.finally(() => {
+  saveNotify.disabled = false;
+});
+});
+
+</script>
+
+</body>
+</html>

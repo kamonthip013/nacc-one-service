@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>ONE Dashboard - NACC Nonthaburi</title>
+
+<style>
+
+body{
+  margin:0;
+  font-family:Arial,"Noto Sans Thai",sans-serif;
+  background:#f4f6f9;
+  color:#1e293b;
+}
+
+.header{
+  background:linear-gradient(135deg,#071a3d,#0f2f66);
+  color:white;
+  text-align:center;
+  padding:30px 20px;
+}
+
+.header h1{
+  margin:0;
+  font-size:32px;
+}
+
+.header p{
+  margin:8px 0 0;
+  opacity:0.9;
+}
+
+.container{
+  width:94%;
+  max-width:1200px;
+  margin:30px auto;
+}
+
+.summary{
+  display:grid;
+  grid-template-columns:repeat(5, 1fr);
+  gap:16px;
+  margin-bottom:20px;
+}
+@media(max-width:900px){
+  .summary{
+    grid-template-columns:repeat(2, 1fr);
+  }
+}
+
+@media(max-width:500px){
+  .summary{
+    grid-template-columns:1fr;
+  }
+}
+
+
+.card{
+  background:white;
+  border-radius:18px;
+  padding:22px;
+  text-align:center;
+  box-shadow:0 6px 18px rgba(0,0,0,0.08);
+}
+
+.card h3{
+  margin:0 0 10px;
+  font-size:16px;
+}
+
+.card .number{
+  font-size:34px;
+  font-weight:bold;
+  color:#0f2f66;
+}
+
+.panel{
+  background:white;
+  margin-top:22px;
+  border-radius:18px;
+  padding:22px;
+  box-shadow:0 6px 18px rgba(0,0,0,0.08);
+}
+
+.panel h2{
+  margin-top:0;
+  color:#0f2f66;
+}
+.card-total{
+  border-top:6px solid #0f2f66;
+}
+
+.card-pending{
+  border-top:6px solid #f59e0b;
+}
+
+.card-confirmed{
+  border-top:6px solid #16a34a;
+}
+
+.card-cancelled{
+  border-top:6px solid #dc2626;
+}
+
+.nav-buttons{
+  display:flex;
+  gap:12px;
+  margin-bottom:20px;
+}
+
+.nav-buttons a{
+  text-decoration:none;
+  padding:10px 16px;
+  border-radius:10px;
+  font-weight:bold;
+}
+
+.btn-home{
+  background:#0f2f66;
+  color:white;
+}
+
+.btn-admin{
+  background:#16a34a;
+  color:white;
+}
+
+.chart{
+  display:flex;
+  width:100%;
+  height:28px;
+  border-radius:10px;
+  overflow:hidden;
+  background:#e2e8f0;
+  margin-top:12px;
+}
+
+.bar{
+  height:100%;
+  color:white;
+  font-weight:bold;
+  text-align:center;
+  line-height:28px;
+  font-size:13px;
+}
+
+.pending{
+  background:#f59e0b;
+}
+
+.confirmed{
+  background:#16a34a;
+}
+
+.cancelled{
+  background:#dc2626;
+}
+
+.legend{
+  margin-top:10px;
+  font-size:14px;
+}
+
+/* จัดหน้า ONE DASHBOARD */
+body {
+  background: #f3f6fb;
+}
+
+.summary {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.card {
+  min-width: 0;
+  min-height: 120px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border: 1px solid #e2e9f3;
+}
+
+.card h3 {
+  line-height: 1.5;
+}
+
+.nav-buttons {
+  flex-wrap: wrap;
+}
+
+.panel {
+  padding: 28px;
+  border: 1px solid #e2e9f3;
+}
+
+@media (max-width: 900px) {
+  .summary {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 500px) {
+  .summary {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+  }
+
+  .card {
+    padding: 16px 10px;
+  }
+
+  .card .number {
+    font-size: 28px;
+  }
+
+  .panel {
+    padding: 18px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="header">
+  <h1>ONE DASHBOARD</h1>
+  <p>ภาพรวมการให้บริการและสถานะการจองคิว</p>
+</div>
+
+<div class="container">
+
+  <div class="nav-buttons">
+
+   <a href="index.html" class="btn-home">
+     ← กลับหน้า O.N.E. Service
+   </a>
+
+   <a href="admin.html" class="btn-admin">
+     ไปหน้า Admin
+   </a>
+
+   <a href="notify.html" class="btn-admin">
+     ไปหน้า ONE NOTIFY
+   </a>
+
+   <a href="./notifylist.html" class="btn-admin">
+       ดูรายการเเจ้งเตือน
+   </a>
+
+</div>
+
+<div class="summary">
+
+  <div class="card card-total">
+  <h3>คิวทั้งหมด</h3>
+  <div class="number" id="totalQueue">0</div>
+</div>
+
+<div class="card card-pending">
+  <h3>รอยืนยัน</h3>
+  <div class="number" id="pendingQueue">0</div>
+</div>
+
+<div class="card card-confirmed">
+  <h3>ยืนยันแล้ว</h3>
+  <div class="number" id="confirmedQueue">0</div>
+</div>
+
+<div class="card card-cancelled">
+  <h3>ยกเลิก</h3>
+  <div class="number" id="cancelledQueue">0</div>
+</div>
+
+<div class="card">
+  <h3>คิววันนี้</h3>
+  <div class="number" id="todayQueue">0</div>
+</div>
+
+<div class="card">
+  <h3>หนังสือทั้งหมด</h3>
+  <div class="number" id="totalNotify">0</div>
+</div>
+
+<div class="card">
+  <h3>รอรับทราบ</h3>
+  <div class="number" id="waitingNotify">0</div>
+</div>
+
+<div class="card">
+  <h3>รับทราบเเล้ว</h3>
+  <div class="number" id="sentNotify">0</div>
+</div>
+
+</div>
+
+<div class="panel">
+  <h2>สรุปผลการให้บริการ</h2>
+
+  <p>
+    อัตราการยืนยันคิว:
+    <strong id="confirmRate">0%</strong>
+  </p>
+
+  <p>
+    คิวล่าสุด:
+    <strong id="latestQueue">-</strong>
+  </p>
+
+  <h3>สัดส่วนสถานะคิว</h3>
+
+  <div class="chart">
+    <div id="barPending" class="bar pending"></div>
+    <div id="barConfirmed" class="bar confirmed"></div>
+    <div id="barCancelled" class="bar cancelled"></div>
+  </div>
+
+  <div class="legend">
+    🟠 รอยืนยัน <strong id="pendingPercentText">0%</strong>
+    &nbsp;&nbsp;
+
+    🟢 ยืนยันแล้ว <strong id="confirmedPercentText">0%</strong>
+    &nbsp;&nbsp;
+
+    🔴 ยกเลิก <strong id="cancelledPercentText">0%</strong>
+  </div>
+</div>
+
+  <h3>สรุป ONE NOTIFY</h3>
+
+  <p>
+    รอรับทราบ:
+    <strong id="waitingNotifySummary">0</strong>
+  </p>
+
+  <p>
+    รับทราบเเล้ว:
+    <strong id="sentNotifySummary">0</strong>
+  </p>
+
+  <p>
+    หนังสือล่าสุด:
+    <strong id="latestNotify">-</strong>
+  </p>
+  
+  <div class="chart">
+    <div id="barWaitingNotify"
+         class="bar pending"></div>
+
+    <div id="barSentNotify"
+         class="bar confirmed"></div>
+  </div>
+
+  <p>
+    รอรับทราบ:
+    <strong id="waitingNotifyPercentText">0%</strong>
+  </p>
+
+  <p>
+    รับทราบเเล้ว:
+    <strong id="sentNotifyPercentText">0%</strong>
+  </p>
+</div>
+
+<script>
+
+let queueSummary = null;
+let queueLoadFailed = false;
+const QUEUE_API =
+  "https://script.google.com/macros/s/AKfycbw2Zmcw9fXuUcB29pNxJPHwfsOAdow63VtfPrKQucI0dOC7gQAjp2c5LpPn6BhGIgVWMA/exec?mode=queueSummary";
+
+  async function loadQueueFromGoogleSheet() {
+    try {
+      const response = await fetch(QUEUE_API + "&t=" + Date.now());
+      if (!response.ok) throw new Error("โหลดสรุปคิวไม่ได้");
+
+      const data = await response.json();
+      if (!data.success || !data.summary) {
+        throw new Error("รูปแบบสรุปคิวไม่ถูกต้อง");
+      }
+
+      queueSummary = data.summary;
+      queueLoadFailed = false;
+    } catch (error) {
+      console.error("โหลดสรุปคิวไม่สำเร็จ", error);
+      queueSummary = null;
+      queueLoadFailed = true;
+    }
+  }
+  let notifyList = []; 
+  let notifySummary = null; 
+  function renderDashboard() {    
+  const totalNotify = Number(notifySummary?.total ?? 0);
+  const waitingNotify = Number(notifySummary?.waiting ?? 0);
+  const sentNotify = Number(notifySummary?.acknowledged ?? 0);
+
+
+  let waitingNotifyPercent = 0;
+  let sentNotifyPercent = 0;
+
+  if (totalNotify > 0) {
+    waitingNotifyPercent =
+      (waitingNotify / totalNotify) * 100;
+
+    sentNotifyPercent =
+      (sentNotify / totalNotify) * 100;
+  }
+ 
+
+  const total = Number(queueSummary?.total ?? 0);
+  const pending = Number(queueSummary?.pending ?? 0);
+  const confirmed = Number(queueSummary?.confirmed ?? 0);
+  const cancelled = Number(queueSummary?.cancelled ?? 0);
+  const todayQueue = Number(queueSummary?.todayQueue ?? 0);
+  let pendingPercent = 0;
+  let confirmedPercent = 0;
+  let cancelledPercent = 0;
+
+  if(total > 0){
+    pendingPercent = (pending / total) * 100;
+    confirmedPercent = (confirmed / total) * 100;
+    cancelledPercent = (cancelled / total) * 100;
+  }
+
+  document.getElementById("barPending").style.width =
+    pendingPercent + "%";
+
+  document.getElementById("barWaitingNotify").style.width =
+    waitingNotifyPercent + "%";
+  
+  document.getElementById("barSentNotify").style.width =
+    sentNotifyPercent + "%";
+  
+  document.getElementById("waitingNotifyPercentText").textContent =
+    Math.round(waitingNotifyPercent) + "%";
+  
+  document.getElementById("sentNotifyPercentText").textContent =
+    Math.round(sentNotifyPercent) + "%";
+
+  document.getElementById("barConfirmed").style.width =
+    confirmedPercent + "%";
+
+  document.getElementById("barCancelled").style.width =
+    cancelledPercent + "%";
+
+  document.getElementById("pendingPercentText").textContent =
+      Math.round(pendingPercent) + "%";
+
+  document.getElementById("confirmedPercentText").textContent =
+      Math.round(confirmedPercent) + "%";
+
+  document.getElementById("cancelledPercentText").textContent =
+      Math.round(cancelledPercent) + "%";
+
+  document.getElementById("barPending").textContent =
+      pending > 0 ? Math.round(pendingPercent) + "%" : "";
+
+  document.getElementById("barConfirmed").textContent =
+      confirmed > 0 ? Math.round(confirmedPercent) + "%" : "";
+
+  document.getElementById("barCancelled").textContent =
+      cancelled > 0 ? Math.round(cancelledPercent) + "%" : "";
+
+  document.getElementById("totalQueue").textContent = total;
+  document.getElementById("totalNotify").textContent = totalNotify;
+  document.getElementById("waitingNotify").textContent = waitingNotify;
+  document.getElementById("waitingNotifySummary").textContent = waitingNotify;
+  document.getElementById("sentNotify").textContent = sentNotify;
+  document.getElementById("sentNotifySummary").textContent = sentNotify;
+  document.getElementById("pendingQueue").textContent = pending;
+  document.getElementById("confirmedQueue").textContent = confirmed;
+  document.getElementById("cancelledQueue").textContent = cancelled;
+  document.getElementById("todayQueue").textContent = todayQueue;
+
+  let confirmRate = 0;
+
+  if(total > 0){
+    confirmRate =
+      Math.round((confirmed / total) * 100);
+  }
+
+  document.getElementById("confirmRate").textContent =
+    confirmRate + "%";
+
+  document.getElementById("latestQueue").textContent =
+    queueSummary?.latestQueueCode || "—";
+  document.getElementById("latestNotify").textContent = "—";
+  if (queueLoadFailed) {
+    [
+      "totalQueue",
+      "pendingQueue",
+      "confirmedQueue",
+      "cancelledQueue",
+      "todayQueue",
+      "confirmRate",
+      "pendingPercentText",
+      "confirmedPercentText",
+      "cancelledPercentText"
+    ].forEach(id => {
+      document.getElementById(id).textContent = "—";
+    });
+
+    [
+      "barPending",
+      "barConfirmed",
+      "barCancelled"
+    ].forEach(id => {
+      document.getElementById(id).style.width = "0%";
+    });
+
+    document.getElementById("latestQueue").textContent =
+      "โหลดข้อมูลคิวไม่ได้ กรุณารีเฟรชอีกครั้ง";
+  }
+  }
+
+
+  async function loadNotifySummary() {
+    const NOTIFY_API =
+      "https://script.google.com/macros/s/AKfycbw2Zmcw9fXuUcB29pNxJPHwfsOAdow63VtfPrKQucI0dOC7gQAjp2c5LpPn6BhGIgVWMA/exec";
+
+    const response = await fetch(
+      NOTIFY_API + "?mode=summary&t=" + Date.now()
+    );
+
+    if (!response.ok) {
+      throw new Error("เชื่อมต่อ ONE NOTIFY ไม่ได้");
+    }
+
+    const data = await response.json();
+
+    if (!data.success) {
+      throw new Error(data.message || "โหลดรายการหนังสือไม่ได้");
+    }
+
+    notifySummary = data;
+  }
+
+async function startDashboard() {
+  await loadQueueFromGoogleSheet();
+
+  try {
+    await loadNotifySummary();
+    renderDashboard();
+  } catch (error) {
+    console.error(error);
+    renderDashboard();
+
+    [
+      "totalNotify",
+      "waitingNotify",
+      "sentNotify",
+      "waitingNotifySummary",
+      "sentNotifySummary",
+      "waitingNotifyPercentText",
+      "sentNotifyPercentText"
+    ].forEach(id => {
+      document.getElementById(id).textContent = "—";
+    });
+
+    document.getElementById("barWaitingNotify").style.width = "0%";
+    document.getElementById("barSentNotify").style.width = "0%";
+    document.getElementById("latestNotify").textContent =
+      "โหลดข้อมูลหนังสือไม่ได้ กรุณารีเฟรชอีกครั้ง";
+  }
+}
+
+startDashboard();
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Queue - NACC Nonthaburi</title>
+
+<style>
+
+body{
+  margin:0;
+  font-family:Arial,"Noto Sans Thai",sans-serif;
+  background:#f4f6f9;
+  color:#1e293b;
+}
+
+.header{
+  background:linear-gradient(135deg,#071a3d,#0f2f66);
+  color:white;
+  text-align:center;
+  padding:28px 20px;
+}
+
+.container{
+  width:94%;
+  max-width:1200px;
+  margin:30px auto;
+}
+
+.summary{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:16px;
+  margin-bottom:25px;
+}
+
+.card{
+  background:white;
+  border-radius:16px;
+  padding:20px;
+  text-align:center;
+  box-shadow:0 6px 18px rgba(0,0,0,0.08);
+}
+
+.card h3{
+  margin:0 0 8px;
+  font-size:16px;
+}
+
+.card .number{
+  font-size:30px;
+  font-weight:bold;
+  color:#0f2f66;
+}
+
+.table-box{
+  background:white;
+  border-radius:16px;
+  padding:20px;
+  box-shadow:0 6px 18px rgba(0,0,0,0.08);
+  overflow-x:auto;
+}
+
+table{
+  width:100%;
+  border-collapse:collapse;
+}
+
+th,
+td{
+  padding:12px;
+  border-bottom:1px solid #e2e8f0;
+  text-align:left;
+  font-size:14px;
+}
+
+th{
+  background:#0f2f66;
+  color:white;
+}
+
+tr:hover{
+  background:#f8fafc;
+}
+
+.status{
+  font-weight:bold;
+}
+
+.btn-confirm{
+  background:#16a34a;
+  color:white;
+  border:none;
+  padding:7px 12px;
+  border-radius:7px;
+  cursor:pointer;
+}
+
+.btn-cancel{
+  background:#dc2626;
+  color:white;
+  border:none;
+  padding:7px 12px;
+  border-radius:7px;
+  cursor:pointer;
+}
+
+.status-pending{
+  color:#d97706;
+  font-weight:bold;
+}
+
+.status-confirmed{
+  color:#16a34a;
+  font-weight:bold;
+}
+
+.status-cancelled{
+  color:#dc2626;
+  font-weight:bold;
+}
+
+/* จัดหน้า ONE QUEUE ADMIN */
+body {
+  background: #f3f6fb;
+}
+
+.summary {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.card {
+  min-width: 0;
+  border: 1px solid #e2e9f3;
+}
+
+.table-box {
+  border: 1px solid #e2e9f3;
+  overflow-x: auto;
+}
+
+table {
+  min-width: 900px;
+}
+
+th, td {
+  padding: 14px 12px;
+  vertical-align: middle;
+}
+
+th {
+  white-space: nowrap;
+}
+
+tbody tr:nth-child(even) {
+  background: #f8faff;
+}
+
+.btn-confirm,
+.btn-cancel {
+  margin: 3px;
+  white-space: nowrap;
+}
+
+@media (max-width: 700px) {
+  .summary {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+  }
+
+  .card {
+    padding: 16px 10px;
+  }
+
+  .table-box {
+    padding: 14px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="header">
+  <h1>ONE QUEUE ADMIN</h1>
+  <p>ระบบจัดการคิว งานตรวจสอบทรัพย์สิน</p>
+</div>
+
+<div class="container">
+
+  <div class="summary">
+    <div class="card">
+      <h3>คิวทั้งหมด</h3>
+      <div class="number" id="totalQueue">0</div>
+    </div>     
+
+    <div class="card">
+      <h3>รอยืนยัน</h3>
+      <div class="number" id="pendingQueue">0</div>
+    </div>
+
+    <div class="card">
+       <h3>ยืนยันแล้ว</h3>
+       <div class="number" id="confirmedQueue">0</div>
+    </div>
+
+    <div class="card">
+      <h3>ยกเลิก</h3>
+      <div class="number" id="cancelledQueue">0</div>
+    </div>
+  </div>
+
+    <div class="table-box">
+      <h2>รายการจองคิวทั้งหมด</h2>
+
+      <table>
+        <thead>
+          <tr>
+            <th>เลขคิว</th>
+            <th>ชื่อ-นามสกุล</th>
+            <th>เบอร์โทร</th>
+            <th>วันที่</th>
+            <th>เวลา</th>
+            <th>บริการ</th>
+            <th>สถานะ</th>
+            <th>จัดการ</th>
+          </tr>
+        </thead>
+
+        <tbody id="queueTableBody">
+        </tbody>
+      </table>
+    </div>
+
+  </div>        
+
+<script>
+let queueList = [];
+localStorage.removeItem("queueList");
+
+const tableBody = document.getElementById("queueTableBody");
+
+function renderAdminQueues() {
+tableBody.replaceChildren();
+  queueList.forEach(function (queue) {
+    const row = document.createElement("tr");
+
+    [
+      queue.queueCode,
+      queue.fullName,
+      queue.phone || "-",
+      queue.bookingDate,
+      queue.bookingTime,
+      queue.serviceType || "-"
+    ].forEach(function (value) {
+      const cell = document.createElement("td");
+      cell.textContent = value ?? "";
+      row.appendChild(cell);
+    });
+
+    const statusCell = document.createElement("td");
+    statusCell.textContent = queue.status || "";
+    statusCell.className =
+      queue.status === "ยืนยันแล้ว" ? "status-confirmed" :
+      queue.status === "ยกเลิก" ? "status-cancelled" : "status-pending";
+    row.appendChild(statusCell);
+
+    const actionCell = document.createElement("td");
+
+    const confirmButton = document.createElement("button");
+    confirmButton.className = "btn-confirm";
+    confirmButton.textContent = "ยืนยัน";
+    confirmButton.addEventListener("click", function () {
+      confirmQueue(queue.queueCode);
+    });
+
+    const cancelButton = document.createElement("button");
+    cancelButton.className = "btn-cancel";
+    cancelButton.textContent = "ยกเลิก";
+    cancelButton.addEventListener("click", function () {
+      cancelQueue(queue.queueCode);
+    });
+ 
+    actionCell.append(confirmButton, cancelButton);
+    row.appendChild(actionCell);
+    tableBody.appendChild(row);
+  });
+
+  document.getElementById("totalQueue").textContent =
+    queueList.length;
+
+  document.getElementById("pendingQueue").textContent =
+    queueList.filter(q => q.status === "รอยืนยัน").length;
+
+  document.getElementById("confirmedQueue").textContent =
+    queueList.filter(q => q.status === "ยืนยันแล้ว").length;
+
+  document.getElementById("cancelledQueue").textContent =
+    queueList.filter(q => q.status === "ยกเลิก").length;
+}
+function updateQueueStatus(queueCode, status) {
+  const adminKey = prompt("กรอกรหัส Admin เพื่อเปลี่ยนสถานะคิว " + queueCode);
+  if (!adminKey) return;
+
+  fetch("https://script.google.com/macros/s/AKfycbw2Zmcw9fXuUcB29pNxJPHwfsOAdow63VtfPrKQucI0dOC7gQAjp2c5LpPn6BhGIgVWMA/exec", {
+    method: "POST",
+    headers: { "Content-Type": "text/plain;charset=utf-8" },
+    body: JSON.stringify({
+    action: "updateQueueStatus",
+    adminKey: adminKey,
+    queueCode: queueCode,
+    status: status
+  })
+})
+.then(function (response) {
+  if (!response.ok) throw new Error("HTTP " + response.status);
+  return response.json();
+})
+.then(function (data) {
+  if (!data.success) throw new Error(data.message || "บันทึกไม่สำเร็จ");
+  localStorage.removeItem("queueList");
+  location.reload();
+})
+.catch(function (error) {
+  console.error(error);
+  alert("เปลี่ยนสถานะไม่สำเร็จ: " + error.message);
+});
+}
+
+function confirmQueue(queueCode) {
+  updateQueueStatus(queueCode, "ยืนยันแล้ว");
+}
+
+function cancelQueue(queueCode) {
+  updateQueueStatus(queueCode, "ยกเลิก");
+}
+  async function loadAdminQueues() {
+    queueList = [];
+    renderAdminQueues();
+
+    const countIds = [
+      "totalQueue",
+      "pendingQueue",
+      "confirmedQueue",
+      "cancelledQueue"
+    ];
+     
+    countIds.forEach(id => {
+      document.getElementById(id).textContent = "—";
+    });
+
+    const showMessage = message => {
+      tableBody.replaceChildren();
+      const row = document.createElement("tr");
+      const cell = document.createElement("td");
+      cell.colSpan = 8;
+      cell.textContent = message;
+      row.appendChild(cell);
+      tableBody.appendChild(row);
+    };
+
+    showMessage("กรุณาเข้าสู่ระบบด้วยรหัส Admin");
+    
+    const adminKey = prompt("กรอกรหัส Admin เพื่อดูรายการคิว");
+    if (!adminKey) {
+      showMessage("ยังไม่ได้เข้าสู่ระบบ");
+      return;
+    }
+
+    showMessage("กำลังโหลดรายการคิว…");
+
+    try {
+      const response = await fetch(
+        "https://script.google.com/macros/s/AKfycbw2Zmcw9fXuUcB29pNxJPHwfsOAdow63VtfPrKQucI0dOC7gQAjp2c5LpPn6BhGIgVWMA/exec",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "text/plain;charset=utf-8"
+          },
+          body: JSON.stringify({
+            action: "adminQueueList",
+            adminKey: adminKey
+          })
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("เชื่อมต่อระบบไม่ได้");
+      }
+
+      const data = await response.json();
+
+      if (!data.success || !Array.isArray(data.items)) {
+        throw new Error(data.message || "โหลดรายการคิวไม่สำเร็จ");
+      }
+
+      queueList = data.items.map(item => ({
+        queueCode: item["เลขคิว"],
+        fullName: item["ชื่อ-นามสกุล"],
+        phone: item["เบอร์โทร"] || "-",
+        bookingDate: item["วันที่นัด"],
+        bookingTime: item["เวลานัด"],
+        serviceType: item["บริการ"] || "-",
+        status: String(item["สถานะ"] || "").trim()
+      }));
+
+      renderAdminQueues();
+
+      if (queueList.length === 0) {
+        showMessage("ยังไม่มีรายการคิว");
+      }
+    } catch (error) {
+      queueList = [];
+      showMessage(error.message || "โหลดรายการคิวไม่สำเร็จ");
+      console.error(error);
+    }
+  }
+
+  loadAdminQueues();
+
+</script>
+
+</body>
+</html>

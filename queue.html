@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ONE Queue - NACC Nonthaburi</title>
+<style>
+
+body{
+  margin:0;
+  font-family:Arial,"Noto Sans Thai",sans-serif;
+  background:#f4f6f9;
+  color:#1e293b;
+}
+
+.header{
+  background:linear-gradient(135deg,#071a3d,#0f2f66);
+  color:white;
+  text-align:center;
+  padding:28px 20px;
+} 
+
+.header h1{
+  margin:0;
+  font-size:32px;
+}
+
+.header p{
+  margin:8px 0 0;
+  font-size:16px;
+  opacity:0.9;
+}
+
+.container{
+  width:92%;
+  max-width:800px;
+  margin:35px auto;
+}
+
+.form-box{
+  background:white;
+  border-radius:18px;
+  padding:30px;
+  box-shadow:0 8px 25px rgba(0,0,0,0.08);
+}
+
+.form-box h2{
+  text-align:center;
+  color:#0f2f66;
+  margin-top:0;
+}
+
+label{
+  display:block;
+  margin-top:18px;
+  font-weight:bold;
+  color:#334155;
+}
+
+input,
+select,
+textarea{
+  width:100%;
+  padding:12px;
+  margin-top:7px;
+  border:1px solid #cbd5e1;
+  border-radius:10px;
+  font-size:16px;
+  box-sizing:border-box;
+}
+
+input:focus,
+select:focus,
+textarea:focus{
+  outline:none;
+  border-color:#0f2f66;
+  box-shadow:0 0 0 3px rgba(15,47,102,0.10);
+}
+
+button{
+  width:100%;
+  margin-top:24px;
+  padding:14px;
+  border:none;
+  border-radius:10px;
+  background:linear-gradient(135deg,#0f2f66,#2563eb);
+  color:white;
+  font-size:17px;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+button:hover{
+  transform:translateY(-2px);
+  box-shadow:0 8px 18px rgba(37,99,235,0.25);
+}
+
+.back-link{
+  display:inline-block;
+  margin-bottom:18px;
+  color:#0f2f66;
+  text-decoration:none;
+  font-weight:bold;
+}
+
+.back-link:hover{
+  text-decoration:underline;
+}
+
+.queue-result {
+  margin-top: 25px;
+  padding: 25px;
+  background: #f5f9ff;
+  border: 2px solid #0b57d0;
+  border-radius: 16px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+}
+
+.queue-result h3 {
+  margin-top: 0;
+  color: #0b57d0;
+  text-align: center;
+}
+
+.queue-result p {
+  padding: 8px 0;
+  margin: 0;
+  border-bottom: 1px solid #dbe7f7;
+  font-size: 17px;
+}
+
+.status-badge {
+  display: inline-block;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-weight: bold;
+}
+
+.status-wait {
+  background: #fff3cd;
+  color: #856404;
+}
+
+.status-confirm {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.status-done {
+  background: #dbeafe;
+  color: #1d4ed8;
+}
+
+.status-cancel {
+  background: #f8d7da;
+  color: #721c24;
+}
+
+/* จัดหน้า ONE QUEUE */
+body {
+  background: #f3f6fb;
+}
+
+.container {
+  width: min(92%, 860px);
+  margin: 28px auto 56px;
+}
+
+.form-box {
+  box-sizing: border-box;
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 36px;
+  border: 1px solid #e2e9f3;
+  box-shadow: 0 12px 32px rgba(7, 26, 61, 0.10);
+}
+
+.form-box h2 {
+  margin: 0 0 24px;
+}
+
+.form-box label {
+  margin-top: 18px;
+  margin-bottom: 8px;
+}
+
+.form-box input,
+.form-box select,
+.form-box textarea {
+  margin-top: 0;
+}
+
+.form-box button {
+  margin-top: 28px;
+}
+
+.queue-result {
+  box-sizing: border-box;
+  max-width: 720px;
+  margin: 25px auto 0;
+}
+
+@media (max-width: 600px) {
+  .form-box {
+    padding: 22px;
+  }
+
+  .header h1 {
+    font-size: 26px;
+  }
+
+  .queue-result {
+    padding: 18px;
+  }
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="header">
+  <h1>ONE QUEUE</h1>
+  <p>ระบบจองคิวออนไลน์ งานตรวจสอบทรัพย์สิน</p>
+</div>
+
+<div class="container">
+
+<a href="index.html" class="back-link">
+← กลับหน้า O.N.E. Service
+</a>
+
+<div class="form-box">
+  <h2>จองคิวเข้ารับบริการ</h2>
+
+  <label>ชื่อ-นามสกุล</label>
+  <input
+    type="text"
+    id="fullName"
+    placeholder="กรอกชื่อ-นามสกุล"
+    required
+  >
+
+  <label>เลขประจำตัวประชาชน</label>
+  <input
+    type="text"
+    id="citizenId"
+    maxlength="13"
+    placeholder="กรอกเลขประจำตัวประชาชน 13 หลัก"
+    required
+  >
+
+  <label>หมายเลขโทรศัพท์</label>
+  <input
+    type="tel"
+    id="phone"
+    maxlength="10"
+    placeholder="เช่น 0812345678"
+    required
+  >
+
+  <label>วันที่เข้ารับบริการ</label>
+  <input
+    type="date"
+    id="bookingDate"
+    required
+  >
+
+  <label>ช่วงเวลาเข้ารับบริการ</label>
+  <select id="bookingTime" required>
+    <option value="">-- เลือกช่วงเวลา --</option>
+    <option>09:00 - 10:00 น.</option>
+    <option>10:00 - 11:00 น.</option>
+    <option>13:00 - 14:00 น.</option>
+    <option>14:00 - 15:00 น.</option>
+  </select>
+
+  <label>หัวข้อรับบริการ</label>
+  <select id="serviceType" required>
+    <option value="">-- เลือกหัวข้อรับบริการ --</option>
+    <option>ยื่นบัญชีทรัพย์สินและหนี้สิน</option>
+    <option>ตรวจสอบข้อมูลทรัพย์สิน</option>
+    <option>ขอคำปรึกษาเกี่ยวกับการยื่นบัญชี</option>
+    <option>ติดต่อสอบถามทั่วไป</option>
+  </select>
+
+  <label>หมายเหตุ</label>
+  <textarea
+    id="note"
+    rows="4"
+    placeholder="กรอกรายละเอียดเพิ่มเติม (ถ้ามี)"
+  ></textarea>
+
+  <button type="button" id="submitQueue">
+    ยืนยันการจองคิว
+  </button>
+
+<div class="check-queue-box">
+  <h3>🔎 ตรวจสอบสถานะคิว</h3>
+
+  <label for="queueCodeInput">เลขคิว</label>
+  <input
+    type="text"
+    id="queueCodeInput"
+    placeholder="กรอกเลขคิว เช่น Q018"
+  >
+
+  <label for="queuePhoneInput">เบอร์โทรที่ใช้จอง</label>
+  <input
+    type="tel"
+    id="queuePhoneInput"
+    inputmode="numeric"
+    autocomplete="tel"
+    placeholder="กรอกเบอร์โทรที่ใช้จอง"
+  >
+</div>
+
+  <button type="button" id="checkQueue">
+    🔎 ตรวจสอบคิว
+  </button>
+
+  <div id="queueResult" class="queue-result"
+       style="display: none;">
+
+      <h3>🔎 ผลการตรวจสอบคิว</h3>
+      <div id="queueResultContent"></div>
+
+</div>
+
+  </div>
+
+</div>
+
+<script>
+const submitBtn = document.getElementById("submitQueue");
+
+submitBtn.addEventListener("click", async function () {
+  const getValue = id =>
+    document.getElementById(id).value.trim();
+
+  const newQueue = {
+    action: "createQueue",
+    fullName: getValue("fullName"),
+    phone: getValue("phone"),
+    bookingDate: getValue("bookingDate"),
+    bookingTime: getValue("bookingTime"),
+    serviceType: getValue("serviceType"),
+    note: getValue("note")
+  };
+
+if (
+  !newQueue.fullName ||
+  !newQueue.phone ||
+  !newQueue.bookingDate ||
+  !newQueue.bookingTime ||
+  !newQueue.serviceType
+) {
+  alert("กรุณากรอกข้อมูลให้ครบ");
+  return;
+}
+
+submitBtn.disabled = true;
+
+try {
+  const response = await fetch(
+    "https://script.google.com/macros/s/AKfycbw2Zmcw9fXuUcB29pNxJPHwfsOAdow63VtfPrKQucI0dOC7gQAjp2c5LpPn6BhGIgVWMA/exec",
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "text/plain;charset=utf-8"
+      },
+      body: JSON.stringify(newQueue)
+    }
+  );
+
+  if (!response.ok) {
+    throw new Error("เชื่อมต่อระบบไม่ได้");
+  }
+
+  const data = await response.json();
+
+  if (!data.success || !data.queueCode) {
+    throw new Error(data.message || "บันทึกคิวไม่สำเร็จ");
+  }
+
+  document.getElementById("queueResult").style.display =
+    "block";
+
+  const content =
+    document.getElementById("queueResultContent");
+
+  content.style.whiteSpace = "pre-line";
+  content.textContent =
+    "บันทึกการจองเรียบร้อยแล้ว\n" +
+    "เลขคิว: " + data.queueCode + "\n" +
+    "วันที่นัด: " + newQueue.bookingDate + "\n" +
+    "เวลานัด: " + newQueue.bookingTime + "\n" +
+    "สถานะ: รอยืนยัน";
+
+  document.getElementById("queueCodeInput").value =
+    data.queueCode;
+
+} catch (error) {
+  alert(
+    "ยังยืนยันการบันทึกไม่ได้: " + error.message +
+    "\nหากการเชื่อมต่อขัดข้อง อย่าเพิ่งกดจองซ้ำ"
+  );
+} finally {
+  submitBtn.disabled = false;
+}
+});
+
+    const checkQueueBtn = document.getElementById("checkQueue");
+
+    checkQueueBtn.addEventListener("click", async function () {
+      const queueCode = document.getElementById("queueCodeInput")
+        .value.trim().toUpperCase();
+
+      const phone = document.getElementById("queuePhoneInput")
+        .value.trim();
+
+      const result = document.getElementById("queueResult");
+      const content = document.getElementById("queueResultContent");
+
+      result.style.display = "block";
+      content.style.whiteSpace = "pre-line";
+
+      if (!queueCode || !phone) {
+        content.textContent = "กรุณากรอกเลขคิวและเบอร์โทรที่ใช้จอง";
+        return;
+      }
+
+      checkQueueBtn.disabled = true;
+      content.textContent = "กำลังตรวจสอบคิว…";
+
+      try {
+        const apiUrl =
+          "https://script.google.com/macros/s/AKfycbw2Zmcw9fXuUcB29pNxJPHwfsOAdow63VtfPrKQucI0dOC7gQAjp2c5LpPn6BhGIgVWMA/exec";
+
+        const params = new URLSearchParams({
+          mode: "checkQueue",
+          queueCode: queueCode,
+          phone: phone,
+          t: String(Date.now())
+        });
+
+        const response = await fetch(apiUrl + "?" + params);
+
+        if (!response.ok) {
+          throw new Error("เชื่อมต่อระบบไม่ได้");
+        }
+
+        const data = await response.json();
+
+        if (!data.success || !data.item) {
+          content.textContent = data.message || "ไม่พบข้อมูลคิว";
+          return;
+        }
+
+        const item = data.item;
+        content.textContent =
+          "เลขคิว: " + item.queueCode + "\n" +
+          "วันที่นัด: " + item.bookingDate + "\n" +
+          "เวลานัด: " + item.bookingTime + "\n" +
+          "สถานะ: " + item.status;
+
+      } catch (error) {
+        content.textContent = "ตรวจสอบไม่สำเร็จ กรุณาลองอีกครั้ง";
+        console.error(error);
+      } finally {
+        checkQueueBtn.disabled = false;
+      }
+    });
+
+</script>
+
+</body>
+</html>

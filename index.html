@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>NACC Nonthaburi O.N.E. Service</title>
+
+<style>
+* {
+  box-sizing: border-box;
+  font-family: Arial, "Noto Sans Thai", sans-serif;
+}
+
+body {
+  margin: 0;
+  background: #f4f6f9;
+  color: #1e293b;
+}
+
+.topbar {
+  background: linear-gradient(135deg, #071a3d, #0f2f66);
+  color: white;
+  padding: 26px 20px;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.topbar h1 {
+  margin: 0;
+  font-size: 34px;
+  letter-spacing: 0.5px;
+}
+
+.topbar h2 {
+  margin: 8px 0 0;
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.topbar p {
+  margin: 10px 0 0;
+  font-size: 15px;
+  opacity: 0.9;
+}
+
+.one-meaning {
+  background: white;
+  padding: 16px;
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  flex-wrap: wrap;
+  border-bottom: 1px solid #dbe2ea;
+}
+
+.one-meaning span {
+  font-weight: bold;
+  color: #0f2f66;
+}
+
+.container {
+  width: 92%;
+  max-width: 1200px;
+  margin: 35px auto;
+}
+
+.welcome {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.welcome h2 {
+  margin-bottom: 8px;
+  font-size: 28px;
+  color: #0f2f66;
+}
+
+.welcome p {
+  color: #64748b;
+  font-size: 16px;
+}
+
+.menu-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.menu-card {
+  background: white;
+  border-radius: 18px;
+  padding: 28px 22px;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
+  border-top: 6px solid #0f2f66;
+  transition: 0.25s;
+}
+
+.menu-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.12);
+}
+
+.menu-icon {
+  font-size: 48px;
+  margin-bottom: 10px;
+}
+
+.menu-card h3 {
+  margin: 0 0 10px;
+  font-size: 24px;
+  color: #0f2f66;
+}
+
+.menu-card p {
+  color: #64748b;
+  min-height: 70px;
+  line-height: 1.6;
+}
+
+.menu-card ul {
+  padding-left: 20px;
+  color: #475569;
+  line-height: 1.8;
+  font-size: 14px;
+}
+
+.btn {
+  display: inline-block;
+  text-decoration: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-weight: bold;
+  color: white;
+  margin-top: 10px;
+}
+
+.queue-btn {
+  background: #0f2f66;
+}
+
+.notify-btn {
+  background: #159947;
+}
+
+.dashboard-btn {
+  background: #8b5a00;
+}
+
+.project-box {
+  margin-top: 35px;
+  background: white;
+  border-radius: 16px;
+  padding: 25px;
+  box-shadow: 0 8px 20px rgba(15,23,42,0.07);
+}
+
+.project-box h3 {
+  color: #0f2f66;
+  margin-top: 0;
+}
+
+.project-box p {
+  line-height: 1.8;
+  color: #475569;
+}
+
+footer {
+  margin-top: 40px;
+  background: #071a3d;
+  color: white;
+  text-align: center;
+  padding: 24px 15px;
+  font-size: 14px;
+}
+
+@media (max-width: 900px) {
+  .menu-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .topbar h1 {
+    font-size: 28px;
+  }
+}
+/* จัดหน้าแรก O.N.E. Service */
+.menu-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-items: stretch;
+}
+
+.menu-card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.menu-card p {
+  min-height: 0;
+  margin: 0 0 18px;
+}
+
+.menu-card ul {
+  margin: 0 0 24px;
+  flex-grow: 1;
+}
+
+.menu-card .btn {
+  align-self: flex-start;
+  margin-top: auto;
+}
+
+@media (max-width: 900px) {
+  .menu-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 620px) {
+  .menu-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .topbar h1 {
+    font-size: 25px;
+  }
+
+  .menu-card {
+    padding: 24px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header class="topbar">
+<h1>NACC Nonthaburi O.N.E. Service</h1>
+<h2>ระบบบริการดิจิทัลแบบบูรณาการ</h2>
+<p>สำนักงาน ป.ป.ช. ประจำจังหวัดนนทบุรี</p>
+</header>
+
+<div class="one-meaning">
+<div><span>O</span> — Online</div>
+<div><span>N</span> — Notification</div>
+<div><span>E</span> — Efficient Service</div>
+</div>
+
+<main class="container">
+
+<section class="welcome">
+<h2>ยินดีต้อนรับสู่ O.N.E. Service</h2>
+<p>หนึ่งระบบ เชื่อมทุกบริการ สะดวก รวดเร็ว ทันสมัย</p>
+</section>
+
+<section class="menu-grid">
+
+<div class="menu-card">
+<div class="menu-icon">📅</div>
+<h3>ONE QUEUE</h3>
+<p>
+ระบบจองคิวออนไลน์สำหรับผู้มาติดต่อ
+งานตรวจสอบทรัพย์สิน
+</p>
+
+<ul>
+<li>จองวันและเวลา</li>
+<li>ลดระยะเวลารอคิว</li>
+<li>ติดตามสถานะการนัดหมาย</li>
+</ul>
+
+<a href="queue.html" class="btn queue-btn">
+เข้าสู่ระบบจองคิว
+</a>
+</div>
+
+<div class="menu-card">
+<div class="menu-icon">🔔</div>
+<h3>ONE NOTIFY</h3>
+<p>
+ระบบแจ้งเตือนหนังสือราชการ
+ผ่าน LINE Official Account
+</p>
+
+<ul>
+<li>บันทึกข้อมูลหนังสือ</li>
+<li>เลือกผู้รับผิดชอบ</li>
+<li>แจ้งเตือนและติดตามสถานะ</li>
+</ul>
+
+<a href="notify.html" class="btn notify-btn">
+เข้าสู่ระบบแจ้งเตือน
+</a>
+</div>
+
+<div class="menu-card">
+<div class="menu-icon">📊</div>
+<h3>ONE DASHBOARD</h3>
+<p>
+ระบบติดตามข้อมูลและสรุปผล
+เพื่อการบริหารจัดการ
+</p>
+
+<ul>
+<li>สรุปข้อมูลการจองคิว</li>
+<li>สรุปการแจ้งเตือนหนังสือ</li>
+<li>ดูข้อมูล KPI และผลการดำเนินงาน</li>
+</ul>
+
+<a href="dashboard.html" class="btn dashboard-btn">
+ดู Dashboard
+</a>
+</div>
+
+</section>
+
+<section class="project-box">
+<h3>แนวคิดของโครงการ</h3>
+<p>
+NACC Nonthaburi O.N.E. Service เป็นแพลตฟอร์มบริการดิจิทัลกลาง
+ที่พัฒนาขึ้นเพื่อยกระดับการให้บริการงานตรวจสอบทรัพย์สิน
+และเพิ่มประสิทธิภาพการสื่อสารหนังสือราชการ
+โดยรวมการจองคิวออนไลน์ การแจ้งเตือนผ่าน LINE Official Account
+และการติดตามผลผ่าน Dashboard ไว้ภายใต้ระบบเดียว
+</p>
+</section>
+
+</main>
+
+<footer>
+NACC Nonthaburi O.N.E. Service<br>
+สำนักงาน ป.ป.ช. ประจำจังหวัดนนทบุรี
+</footer>
+
+</body>
+</html>
